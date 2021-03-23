@@ -1,0 +1,2 @@
+# home-thermal-AI
+This is my dissertation about artificial intelligence in smart home application. This project aims to improve the comfort and the economy to a new level, using all the resources to achieve the desired ambiental of the user. The interface and the pairing proces aims to be simple, and the application that emulates the hub and devices will ilustrate how they interact with each other.
