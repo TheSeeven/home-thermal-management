@@ -1,0 +1,96 @@
+body {
+    padding: 8px;
+    background-color: rgb(26, 26, 26);
+    color: rgb(194, 194, 194);
+}
+
+.topnav {
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    font-size: larger;
+    background-color: grey;
+}
+
+.columnSensors {
+    overflow-y: auto;
+    overflow-x: auto;
+    padding: 8px;
+    float: left;
+    width: 22%;
+}
+
+.columnRooms {
+    overflow-y: auto;
+    overflow-x: auto;
+    padding: 8px;
+    float: left;
+    width: 49%;
+}
+
+.columnOutside {
+    overflow-y: auto;
+    overflow-x: auto;
+    padding: 8px;
+    float: left;
+    width: 26%;
+}
+
+@media screen and (max-width: 1500px) {
+    .columnSensors {
+        float: none;
+        width: 100%;
+    }
+    .columnRooms {
+        float: none;
+        width: 100%;
+    }
+    .columnOutside {
+        float: none;
+        width: 100%;
+    }
+    body {
+        font-size: small;
+    }
+}
+
+p {
+    border-style: solid;
+    border-color: white;
+}
+
+.btn {
+    padding: 8px;
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    color: white;
+}
+
+.btn:hover {
+    color: black;
+    background-color: white;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid grey;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid grey;
+}
+
+th {
+    color: turquoise;
+    font-size: 20px;
+}

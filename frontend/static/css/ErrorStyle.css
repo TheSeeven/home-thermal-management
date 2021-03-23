@@ -1,0 +1,335 @@
+body{
+    background: rgb(39, 39, 39);
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.FunctionsList{
+    background-image: linear-gradient(to bottom, rgba(89, 253, 131,0.7), rgba(78, 253, 34,0.7), rgba(89, 253, 131,0.7));
+    box-shadow: 0px 6px 15px #7a7a7a;
+    padding-top: 0.3cm;
+    padding-bottom: 0.3cm;
+    padding-right: 1cm;
+
+    width: 40%;
+    margin: auto;
+    
+    text-align: center;
+    font-size: 20px;
+    color: #fff;
+    border-radius: 0.5cm;
+}
+
+.ErrorBox{
+    background-image: linear-gradient(to bottom, rgb(93, 93, 93), rgb(73, 73, 73), rgb(93,93,93));
+    box-shadow: 0px 6px 15px #7a7a7a;
+    padding-bottom: 1.4cm;
+    border-radius: 0.5cm;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    width: 40%;  
+    padding-right: 0.5cm;  
+    padding-left: 0.5cm;  
+    
+  vertical-align:bottom;
+    
+    text-align: center;
+    color: #2a2a2a;
+}
+
+
+
+.FunctionListText {
+  text-align: center;
+  font-size: 0.55cm;
+  text-shadow: 5px 5px 10px #0f0000;
+}
+
+.FunctionListTitle {
+  text-shadow: 0px 6px 10px #818181;
+  font-size: larger;
+  color: rgb(104, 104, 104);
+  font-weight: bold;
+}
+
+.ErrorType{
+    font-size: 65px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    color: #fff;
+    background: -webkit-linear-gradient(rgb(78, 78, 78),rgba(231, 231, 231, 0.644),rgb(78, 78, 78));
+    text-shadow: 0px 6px 15px  #949494;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+}
+.ErrorMessage{
+    font-size: 40px;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: rgba(255, 255, 255, 0.644);
+    background: -webkit-linear-gradient(rgb(255, 63, 63),rgb(255, 146, 146),rgb(255, 63, 63));
+    text-shadow: 0px 6px 15px  #ff0202;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ErrorCode{
+    position: relative;
+    color: #fff;
+    font-weight: 700;
+    font-size: 45px;
+    transform: scale(2);
+    padding: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    visibility: hidden;
+    
+  }
+
+
+
+
+
+.Button {
+  background: #ff4a4ad5;
+  box-shadow: 0px 6px 15px #ff0000;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 35px;
+  padding: 1.5rem;
+  border: 0;
+  transition: all 0.5s;
+  border-radius: 10px;
+  width: auto;
+  position: relative;
+  text-decoration: none;
+  text-shadow: 0px 6px 15px  #ffffff;
+}
+
+.Button::after {
+  content: ">";
+  font-weight: 400;
+  position: absolute;
+  left: 85%;
+  top: 31%;
+  right: 5%;
+  bottom: 0;
+  opacity: 0;
+}
+.Button:hover {
+  background: #428aff;
+  transition: all 1s;
+  border-radius: 10px;
+  box-shadow: 0px 6px 15px rgba(0, 0, 255, 1);
+  padding: 1.5rem 3.5rem 1.5rem 1.5rem;
+}
+.Button:hover::after {
+  opacity: 1;
+  transition: all 1s;
+}
+
+
+
+
+.ErrorCode:before,
+.ErrorCode:after {
+    padding: 30px;
+    color: #fff;
+    content: attr(data-text);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    visibility: visible;
+    top: 0;
+    
+  }
+ .ErrorCode:before{
+    left: -37px;
+    text-shadow: -4px 0 red;
+    animation: glitch-1 2s linear infinite reverse;
+  }
+.ErrorCode:after{
+    left: -34px;
+    text-shadow: -4px 0 blue;
+    animation: glitch-2 2s linear infinite reverse;
+  }
+  @keyframes glitch-1 {
+    0% {
+      clip: rect(132px, auto, 90px, 30px);
+    }
+    5% {
+      clip: rect(17px, auto, 94px, 30px);
+    }
+    10% {
+      clip: rect(40px, auto, 66px, 30px);
+    }
+    15% {
+      clip: rect(87px, auto, 82px, 30px);
+    }
+    20% {
+      clip: rect(137px, auto, 61px, 30px);
+    }
+    25% {
+      clip: rect(34px, auto, 14px, 30px);
+    }
+    30% {
+      clip: rect(133px, auto, 74px, 30px);
+    }
+    35% {
+      clip: rect(76px, auto, 90px, 30px);
+    }
+    40% {
+      clip: rect(59px, auto, 90px, 30px);
+    }
+    45% {
+      clip: rect(29px, auto, 84px, 30px);
+    }
+    50% {
+      clip: rect(22px, auto, 67px, 30px);
+    }
+    55% {
+      clip: rect(67px, auto, 62px, 30px);
+    }
+    60% {
+      clip: rect(10px, auto, 90px, 30px);
+    }
+    65% {
+      clip: rect(78px, auto, 90px, 30px);
+    }
+    70% {
+      clip: rect(105px, auto, 13px, 30px);
+    }
+    75% {
+      clip: rect(15px, auto, 75px, 30px);
+    }
+    80% {
+      clip: rect(66px, auto, 39px, 30px);
+    }
+    85% {
+      clip: rect(133px, auto, 73px, 30px);
+    }
+    90% {
+      clip: rect(36px, auto, 90px, 30px);
+    }
+    95% {
+      clip: rect(68px, auto, 90px, 30px);
+    }
+    100% {
+      clip: rect(14px, auto, 90px, 30px);
+    }
+  }
+  @keyframes glitch-2 {
+    0% {
+      clip: rect(129px, auto, 36px, 30px);
+    }
+    5% {
+      clip: rect(36px, auto, 4px, 30px);
+    }
+    10% {
+      clip: rect(85px, auto, 66px, 30px);
+    }
+    15% {
+      clip: rect(91px, auto, 91px, 30px);
+    }
+    20% {
+      clip: rect(148px, auto, 90px, 30px);
+    }
+    25% {
+      clip: rect(38px, auto, 90px, 30px);
+    }
+    30% {
+      clip: rect(69px, auto, 54px, 30px);
+    }
+    35% {
+      clip: rect(98px, auto, 71px, 30px);
+    }
+    40% {
+      clip: rect(146px, auto, 34px, 30px);
+    }
+    45% {
+      clip: rect(134px, auto, 43px, 30px);
+    }
+    50% {
+      clip: rect(102px, auto, 80px, 30px);
+    }
+    55% {
+      clip: rect(119px, auto, 44px, 30px);
+    }
+    60% {
+      clip: rect(106px, auto, 99px, 30px);
+    }
+    65% {
+      clip: rect(141px, auto, 74px, 30px);
+    }
+    70% {
+      clip: rect(20px, auto, 78px, 30px);
+    }
+    75% {
+      clip: rect(133px, auto, 79px, 30px);
+    }
+    80% {
+      clip: rect(78px, auto, 52px, 30px);
+    }
+    85% {
+      clip: rect(35px, auto, 39px, 30px);
+    }
+    90% {
+      clip: rect(67px, auto, 70px, 30px);
+    }
+    95% {
+      clip: rect(71px, auto, 90px, 30px);
+    }
+    100% {
+      clip: rect(83px, auto, 40px, 30px);
+    }
+  }
+
+  @media screen and (max-width: 1250px) {
+    .FunctionsList {
+      width: 70%;
+      font-size: 20px;
+    }
+    .ErrorBox{ 
+      width: 70%;
+    }
+    .FunctionListText {
+      font-size: 20px;
+    }
+    .ErrorMessage{
+      font-size: 30px;
+    }
+    .ErrorCode{
+        font-size: 35px;
+
+    }
+}
+@media screen and (max-width: 1000px) {
+    .FunctionsList {
+      width: 80%;
+      font-size: 15px;
+    }
+    .ErrorBox{ 
+      width: 80%;
+    }
+    .FunctionListText {
+      font-size: 15px;
+    }
+    .ErrorMessage{
+      font-size: 25px;
+    }
+    .ErrorCode{
+        font-size: 28px;
+
+    }
+}
+
+
+  
+
