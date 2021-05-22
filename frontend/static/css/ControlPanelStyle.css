@@ -1,96 +1,140 @@
-body {
-    padding: 8px;
-    background-color: rgb(26, 26, 26);
-    color: rgb(194, 194, 194);
-}
-
-.topnav {
-    padding: 8px;
-    text-align: center;
-    vertical-align: middle;
-    text-decoration: none;
-    font-size: larger;
-    background-color: grey;
-}
-
-.columnSensors {
-    overflow-y: auto;
-    overflow-x: auto;
-    padding: 8px;
-    float: left;
-    width: 22%;
-}
-
-.columnRooms {
-    overflow-y: auto;
-    overflow-x: auto;
-    padding: 8px;
-    float: left;
-    width: 49%;
-}
-
-.columnOutside {
-    overflow-y: auto;
-    overflow-x: auto;
-    padding: 8px;
-    float: left;
-    width: 26%;
-}
-
-@media screen and (max-width: 1500px) {
-    .columnSensors {
-        float: none;
-        width: 100%;
-    }
-    .columnRooms {
-        float: none;
-        width: 100%;
-    }
-    .columnOutside {
-        float: none;
-        width: 100%;
-    }
     body {
-        font-size: small;
+        padding: 8px;
+        background-color: rgb(0, 0, 0);
+        color: rgb(194, 194, 194);
     }
-}
-
-p {
-    border-style: solid;
-    border-color: white;
-}
-
-.btn {
-    padding: 8px;
-    border: none;
-    background-color: inherit;
-    padding: 14px 28px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
-    color: white;
-}
-
-.btn:hover {
-    color: black;
-    background-color: white;
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-    border: 1px solid grey;
-}
-
-th,
-td {
-    padding: 8px;
-    text-align: center;
-    border: 1px solid grey;
-}
-
-th {
-    color: turquoise;
-    font-size: 20px;
-}
+    
+    .topnav {
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+        text-decoration: none;
+        font-size: larger;
+        background-color: rgb(0, 128, 128);
+    }
+    
+    .topbtn {
+        padding: 8px;
+        border: 10px;
+        background-color: rgb(0, 168, 168);
+        padding: 14px 28px;
+        font-size: 16px;
+        color: white;
+        font-size: larger;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .topbtn:hover {
+        background-color: rgba(0, 168, 168, 0.698);
+        color: rgba(255, 255, 255, 0.733);
+    }
+    
+    .columnUnassignedDevices {
+        overflow-y: auto;
+        overflow-x: auto;
+        padding: 8px;
+        float: left;
+        width: 22%;
+        text-align: center;
+    }
+    
+    .columnRooms {
+        overflow-y: auto;
+        overflow-x: auto;
+        padding: 8px;
+        float: left;
+        width: 49%;
+        text-align: center;
+    }
+    
+    .columnOutside {
+        overflow-y: auto;
+        overflow-x: auto;
+        padding: 8px;
+        float: left;
+        width: 26%;
+    }
+    
+    .roomDevicesHeader {
+        font-size: xx-small;
+        background-color: red;
+    }
+    
+    .btn {
+        padding: 8px;
+        border: 10px;
+        background-color: rgba(128, 128, 128, 0.424);
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        color: white;
+        font-weight: bolder;
+        margin-top: 10px;
+        width: 33%;
+    }
+    
+    .importantbtn {
+        background-color: rgba(250, 35, 35, 0.65);
+        color: rgb(255, 255, 255);
+    }
+    
+    @media screen and (max-width: 1650px) {
+        .columnUnassignedDevices {
+            float: none;
+            width: 100%;
+        }
+        .columnRooms {
+            float: none;
+            width: 100%;
+        }
+        .columnOutside {
+            float: none;
+            width: 100%;
+        }
+        .btn {
+            width: 30%;
+        }
+        body {
+            font-size: small;
+        }
+    }
+    
+    .btn:hover {
+        color: rgba(255, 255, 255, 0.733);
+        background-color: rgba(16, 195, 201, 0.733);
+    }
+    
+    .importantbtn:hover {
+        background-color: rgba(250, 35, 35, 0.356);
+        color: rgba(255, 255, 255, 0.733);
+    }
+    
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    
+    td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid grey;
+        font-size: 15px;
+        font-family: "Lucida Console", "Courier New", monospace;
+        font-smooth: always;
+        background-color: rgb(54, 54, 54);
+        color: white;
+    }
+    
+    td:hover {
+        background-color: rgb(65, 65, 65);
+    }
+    
+    th {
+        color: turquoise;
+        font-size: 17px;
+        background-color: #52595c;
+    }

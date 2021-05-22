@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HTM: Control Panel</title>
+<link rel="stylesheet" href="css/ControlPanelStyle.css">
+<link rel="icon" href="../ico/logo.svg">
+<header>
+
+    <body>
+        <div class="topnav">
+            <button class="topbtn" href="ControlPanel.html">Settings</button>
+            <button class="topbtn" href="sitemap.html">About</button>
+        </div>
+    </body>
+</header>
+
+<body>
+
+
+    <div class="columnUnassignedDevices">
+        <h1>Unassigned Devices</h1>
+        <table class="table">
+            <thead>
+                <th></th>
+                <th>Nickname</th>
+                <th>Serial Number</th>
+                <th>Device Type</th>
+                <th>Device Data</th>
+            </thead>
+            <tbody id="UnassignedDevicesTable" class="devicesTable">
+                <!-- data -->
+            </tbody>
+        </table>
+        <button class="btn">Find devices</button>
+    </div>
+
+
+
+    <div class="columnRooms">
+        <h1>Rooms</h1>
+        <table class="table">
+            <thead>
+                <th>Room</th>
+                <th>Information</th>
+                <th>Assigned Devices</th>
+            </thead>
+            <tbody id="roomsTable">
+                <!-- data -->
+            </tbody>
+        </table>
+        <button class="btn">Add</button>
+        <button class="btn">Preferences</button>
+        <button class="btn importantbtn" )>Remove</button>
+    </div>
+
+    <div class="columnOutside">
+        <h1>Outside</h1>
+        <table class="table">
+            <thead>
+                <th></th>
+                <th>Nickname</th>
+                <th>Serial Number</th>
+                <th>Sensor Type</th>
+                <th>Sensor Data</th>
+            </thead>
+            <tbody id="OutsideDevicesTable" class="devicesTable"></tbody>
+        </table>
+    </div>
+
+
+</body>
+<script src="js/FetchData.js"></script>
+
+</html>
