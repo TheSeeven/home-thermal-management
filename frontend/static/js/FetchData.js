@@ -311,13 +311,31 @@ function refreshRooms(tableName, newTable) {
 
 
 
+function selectDelete() {
+    if (this.children[0].className == "roomNicknameTd") {
+        this.children[0].className = "roomNicknameTdSelected";
+        this.children[1].className = "roomInformationTdSelected";
+        this.children[2].className = "roomDevicesTdSelected";
+    } else {
+        this.children[0].className = "roomNicknameTd";
+        this.children[1].className = "roomInformationTd";
+        this.children[2].className = "roomDevicesTd";
+    }
+}
+
 async function updateFields() {
     refreshTable('UnassignedDevicesTable', await getUnassignedDevices());
     refreshTable('OutsideDevicesTable', await getOutsideSensors());
     var rooms = await get_rooms();
     refreshRooms('roomsTable', rooms);
     refreshRooms('removeRoomsTable', rooms);
+
+
+    for (const i of document.getElementById('removeRoomsTable').children) {
+        i.onclick = selectDelete;
+    }
     setTimeout(updateFields, 5000);
+
 }
 
 updateFields();

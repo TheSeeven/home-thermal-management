@@ -31,18 +31,7 @@ async function addRoom() {
         })
 }
 
-function removeRoomForm() {
-    document.getElementById('removeRoomForm').style.display = 'flex';
-    document.getElementById('closeRemoveRoomForm').addEventListener('click',
-        function() {
-            document.getElementById('removeRoomForm').style.display = 'none';
-        });
 
-}
-
-async function removeRoom() {
-
-}
 
 
 temperature.oninput = function() {
