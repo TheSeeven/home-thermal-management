@@ -28,21 +28,20 @@ class interface:
         @staticmethod
         def insert_room(params):  # POST
             paramsLength = len(params)
-            if paramsLength != 6:
+            if paramsLength != 5:
                 return (
                     '1',
                     str(
                         ParameterError(
-                            "Invalid number of parameters! Only 6 accepted ({number} were given)"
+                            "Invalid number of parameters! Only 5 accepted ({number} were given)"
                             .format(number=paramsLength))))
             nickname = params[0]
             temperature = params[1]
             humidity = params[2]
-            lux = params[3]
-            airQuality = params[4]
-            objectiveSpeed = params[5]
+            airQuality = params[3]
+            objectiveSpeed = params[4]
 
-            def func(nickname, temperature, humidity, lux, airQuality,
+            def func(nickname, temperature, humidity, airQuality,
                      objectiveSpeed):
                 with sqlite3.connect(DATABASE_LINK) as DB:
 
@@ -59,12 +58,11 @@ class interface:
                             cursor.close()
                             return result
 
-                    id = getRoomId()
+                    id = str(getRoomId())
                     DB.execute(
-                        """INSERT INTO 'settings' ('id','nickname','temperature','humidity','lux','airQuality','objectiveSpeed') VALUES ({id},{nickname},{temperature},{humidity},{lux},{airQuality},{objectiveSpeed})"""
-                        .format(id=str(id),
+                        """INSERT INTO 'room' ('id','nickname','temperature','humidity','airQuality','objectiveSpeed') VALUES ({id},'{nickname}',{temperature},{humidity},{airQuality},{objectiveSpeed})"""
+                        .format(id=id,
                                 temperature=str(temperature),
-                                lux=str(lux),
                                 humidity=str(humidity),
                                 airQuality=str(airQuality),
                                 objectiveSpeed=str(objectiveSpeed),
@@ -76,7 +74,7 @@ class interface:
                     log("Room inserted succesfully!")
 
             try:
-                func(nickname, temperature, humidity, lux, airQuality,
+                func(nickname, temperature, humidity, airQuality,
                      objectiveSpeed)
                 return ('0', "Room added!")
             except Exception as e:
@@ -151,27 +149,30 @@ class interface:
         id = params[0]
         temperature = params[1]
         humidity = params[2]
-        lux = params[3]
-        airQuality = params[4]
-        objectiveSpeed = params[5]
+        airQuality = params[3]
+        objectiveSpeed = params[4]
         paramsLength = len(params)
-        if paramsLength != 6:
+        if paramsLength != 5:
             return (
                 '1',
                 str(
                     ParameterError(
-                        "Invalid number of parameters! Only 6 accepted ({number} were given)"
+                        "Invalid number of parameters! Only 5 accepted ({number} were given)"
                         .format(number=paramsLength))))
 
-        def func(id, temperature, humidity, lux, airQuality, objectiveSpeed):
+        def func(id, temperature, humidity, airQuality, objectiveSpeed):
             with sqlite3.connect(DATABASE_LINK) as DB:
                 DB.execute(
-                    """UPDATE 'room' SET temperature={temperature},humidity={humidity},lux={lux},airQuality={airQuality},objectiveSpeed={objectiveSpeed} WHERE id={id}"""
-                )
+                    """UPDATE 'room' SET temperature={temperature},humidity={humidity},airQuality={airQuality},objectiveSpeed={objectiveSpeed} WHERE id={id}"""
+                    .format(temperature=str(temperature),
+                            humidity=str(humidity),
+                            airQuality=str(airQuality),
+                            objectiveSpeed=str(objectiveSpeed),
+                            id=str(id)))
                 DB.commit()
 
         try:
-            func(id, temperature, humidity, lux, airQuality, objectiveSpeed)
+            func(id, temperature, humidity, airQuality, objectiveSpeed)
             return ('0', "Settings updated succesfully!")
         except Exception as e:
             log("Update room with id {id} failed: " + str(e))
@@ -248,7 +249,7 @@ class interface:
                     cursorDevice = DB.cursor()
 
                     cursorRoom.execute(
-                        """SELECT room.id, room.nickname, room.temperature, room.humidity,room.lux, room.airQuality, room.objectiveSpeed, sensor_data.temperature,sensor_data.humidity,sensor_data.lux,sensor_data.airQuality
+                        """SELECT room.id, room.nickname, room.temperature, room.humidity, room.airQuality, room.objectiveSpeed, sensor_data.temperature,sensor_data.humidity,sensor_data.airQuality
                     FROM 'room' INNER JOIN 'sensor_data' ON room.id=sensor_data.id AND room.id!=-1"""
                     )
 
@@ -313,7 +314,7 @@ def insert_past_sensor_data():
     try:
         with sqlite3.connect(DATABASE_LINK) as DB:
             DB.execute(
-                """INSERT INTO 'past_sensor_data' ('id','temperature','humidity','lux','airQuality') SELECT id,temperature,humidity,lux,airQuality FROM 'sensor_data'"""
+                """INSERT INTO 'past_sensor_data' ('id','temperature','humidity','airQuality') SELECT id,temperature,humidity,airQuality FROM 'sensor_data'"""
             )
             DB.commit()
             log("Past sensor data inserted succesfully")

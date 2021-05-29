@@ -29,26 +29,17 @@ class Column:
 
 
 DB_TABLES.append(
-    Table("room", (
-        Column("id", "INTEGER UNIQUE NOT NULL"),
-        Column("nickname", "TEXT NOT NULL"), Column("temperature", "FLOAT"),
-        Column("humidity", "FLOAT"), Column("lux", "FLOAT"),
-        Column(
-            "airQuality",
-            "FLOAT"),
-        Column(
-            "objectiveSpeed",
-            "INTEGER"),
-        Column(
-            "",
-            "FOREIGN KEY ('id') REFERENCES 'room' ('id') ON DELETE CASCADE ON UPDATE CASCADE"
-        ))))
+    Table("room",
+          (Column("id", "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL"),
+           Column("nickname", "TEXT NOT NULL"), Column("temperature", "FLOAT"),
+           Column("humidity", "FLOAT"), Column(
+               "airQuality", "FLOAT"), Column("objectiveSpeed", "INTEGER"))))
 
 DB_TABLES.append(
     Table("sensor_data", (
         Column("id", "INTEGER UNIQUE NOT NULL"), Column(
-            "temperature", "FLOAT"), Column("humidity", "FLOAT"),
-        Column("lux", "FLOAT"), Column("airQuality", "FLOAT"),
+            "temperature", "FLOAT"), Column(
+                "humidity", "FLOAT"), Column("airQuality", "FLOAT"),
         Column(
             "",
             "FOREIGN KEY ('id') REFERENCES 'room' ('id') ON DELETE CASCADE ON UPDATE CASCADE"
@@ -57,8 +48,7 @@ DB_TABLES.append(
 DB_TABLES.append(
     Table("past_sensor_data", (
         Column("id", "INTEGER NOT NULL"), Column("temperature", "FLOAT"),
-        Column("humidity", "FLOAT"), Column(
-            "lux", "FLOAT"), Column("airQuality", "FLOAT"),
+        Column("humidity", "FLOAT"), Column("airQuality", "FLOAT"),
         Column("dateTime", "TEXT DEFAULT CURRENT_TIMESTAMP"),
         Column(
             "",

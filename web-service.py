@@ -1,12 +1,24 @@
 import dbService.api, os
 from flask import Flask, request, render_template, jsonify
-from flask.helpers import send_from_directory
+from flask.helpers import make_response, send_from_directory
 from flask_cors import CORS
 
-app = Flask(__name__,
-            static_url_path="",
-            static_folder="frontend/static",
-            template_folder='frontend/static/html')
+SERVER_NAME = 'HTM'
+
+
+class localFlask(Flask):
+    def process_response(self, response):
+        response.headers['server'] = SERVER_NAME
+        return (response)
+
+
+app = localFlask(__name__,
+                 static_url_path="",
+                 static_folder="frontend/static",
+                 template_folder='frontend/static/html')
+app.config['SERVER_NAME'] = 'localhost:5000'
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 31536001
+
 cors = CORS(app)
 
 HUB_SERIAL_NUMBER = "BGDMNG123IOPIGN"
@@ -19,9 +31,11 @@ def favicon():
     return x
 
 
-@app.route('/', methods=['GET', 'POST'])
-def test():
-    return "returnser"
+@app.route('/About', methods=['GET', 'POST'])
+def about():
+    resp = make_response(render_template("About.html"))
+    resp.cache_control.max_age = 179
+    return resp
 
 
 def parseParameters(string):
@@ -42,10 +56,12 @@ def parseParameters(string):
 
 @app.route("/ControlPanel", methods=['GET'])
 def controlPanel():
-    return render_template("ControlPanel.html")
+    resp = make_response(render_template("ControlPanel.html"))
+    resp.cache_control.max_age = 179
+    return resp
 
 
-@app.route("/api/dbService", methods=['GET'])
+@app.route("/api/dbService", methods=['GET', 'POST'])
 def api():
     if request.method == "GET" or request.method == "POST":
         function = request.args.get('function')
@@ -70,7 +86,16 @@ def api():
                 result = function(parameters)
             else:
                 result = function()
-            return jsonify({"status": result[0], 'data': result[1]})
+            resp = make_response(
+                jsonify({
+                    "status": result[0],
+                    'data': result[1]
+                }))
+            resp.mimetype = 'application/js'
+            resp.headers['server'] = 'HTM'
+            resp.headers['X-Content-Type-Options'] = 'nosniff'
+            resp.cache_control.max_age = 1
+            return resp
         else:
             with open(
                     os.getcwd() +

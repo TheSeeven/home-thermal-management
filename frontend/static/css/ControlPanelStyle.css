@@ -1,7 +1,61 @@
     body {
         padding: 8px;
         background-color: rgb(0, 0, 0);
-        color: rgb(194, 194, 194);
+        color: rgb(255, 255, 255);
+    }
+    
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid grey;
+    }
+    
+    .mainHeaders {
+        position: sticky;
+        top: 0;
+        background-color: black;
+    }
+    
+    td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid grey;
+        font-size: 15px;
+        font-family: "Lucida Console", "Courier New", monospace;
+        -webkit-font-smoothing: always;
+        background-color: rgb(54, 54, 54);
+        color: white;
+    }
+    
+    tbody {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    td:hover {
+        background-color: rgb(65, 65, 65);
+    }
+    
+    th {
+        color: turquoise;
+        font-size: 17px;
+        background-color: #52595c;
+        table-layout: auto;
+    }
+    
+    tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+    
+    td:nth-child(even) {
+        background: rgb(54, 54, 54)
+    }
+    
+    td:nth-child(odd) {
+        background: rgb(70, 70, 70)
     }
     
     .topnav {
@@ -10,13 +64,13 @@
         vertical-align: middle;
         text-decoration: none;
         font-size: larger;
-        background-color: rgb(0, 128, 128);
+        background-color: rgb(0, 90, 90);
     }
     
     .topbtn {
         padding: 8px;
         border: 10px;
-        background-color: rgb(0, 168, 168);
+        background-color: rgb(0, 126, 126);
         padding: 14px 28px;
         font-size: 16px;
         color: white;
@@ -37,6 +91,7 @@
         float: left;
         width: 22%;
         text-align: center;
+        height: 1000px
     }
     
     .columnRooms {
@@ -46,6 +101,7 @@
         float: left;
         width: 49%;
         text-align: center;
+        height: 1000px
     }
     
     .columnOutside {
@@ -54,11 +110,31 @@
         padding: 8px;
         float: left;
         width: 26%;
+        height: 1000px
     }
     
-    .roomDevicesHeader {
-        font-size: xx-small;
-        background-color: red;
+    .roomDevicesTable {
+        height: 108px;
+    }
+    
+    .unassignedDevicesTable {
+        height: 800px;
+    }
+    
+    .outsideDevicesTable {
+        height: 800px;
+    }
+    
+    .roomNicknameTd {
+        width: 10%;
+    }
+    
+    .roomInformationTd {
+        width: 15%;
+    }
+    
+    .roomDevicesTd {
+        width: 75%;
     }
     
     .btn {
@@ -72,12 +148,7 @@
         color: white;
         font-weight: bolder;
         margin-top: 10px;
-        width: 33%;
-    }
-    
-    .importantbtn {
-        background-color: rgba(250, 35, 35, 0.65);
-        color: rgb(255, 255, 255);
+        width: 24.7%;
     }
     
     @media screen and (max-width: 1650px) {
@@ -94,7 +165,8 @@
             width: 100%;
         }
         .btn {
-            width: 30%;
+            margin-left: 0.5%;
+            width: 24%;
         }
         body {
             font-size: small;
@@ -106,35 +178,117 @@
         background-color: rgba(16, 195, 201, 0.733);
     }
     
+    .bg-modal {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        justify-content: center;
+        align-items: center;
+        display: none;
+    }
+    
+    .modal-content {
+        width: 500px;
+        height: 600px;
+        background-color: rgb(0, 78, 78);
+        border-radius: 7px;
+        display: flex;
+        text-align: center;
+        justify-content: space-between;
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .close:hover {
+        color: rgba(11, 217, 224, 0.733);
+    }
+    
+    .textField {
+        font-family: "Lucida Console", "Courier New", monospace;
+        -webkit-font-smoothing: always;
+        color: rgb(0, 0, 0);
+        border: 10px;
+        border-radius: 20px;
+        font-size: 30px;
+        text-align: center;
+        background-color: white;
+    }
+    
+    .textField::placeholder {
+        font-size: 20px;
+    }
+    
+    .textFieldLabel {
+        font-family: "Lucida Console", "Courier New", monospace;
+        -webkit-font-smoothing: always;
+        font-size: 25px;
+        color: rgba(255, 255, 255, 0.801);
+    }
+    
+    .formBtn {
+        align-self: center;
+        background-color: rgba(90, 90, 90, 0.7333);
+    }
+    
+    .formBtn:hover {
+        color: rgba(255, 255, 255, 0.726);
+        background-color: rgba(50, 50, 50, 0.7333);
+    }
+    
+    .importantbtn {
+        background-color: rgba(250, 35, 35, 0.65);
+        color: rgb(255, 255, 255);
+    }
+    
     .importantbtn:hover {
         background-color: rgba(250, 35, 35, 0.356);
         color: rgba(255, 255, 255, 0.733);
     }
     
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-        width: 100%;
-        border: 1px solid grey;
+    .remove-modal-content {
+        width: 800px;
+        height: 850px;
     }
     
-    td {
-        padding: 8px;
-        text-align: center;
-        border: 1px solid grey;
-        font-size: 15px;
-        font-family: "Lucida Console", "Courier New", monospace;
-        font-smooth: always;
-        background-color: rgb(54, 54, 54);
+    #removeRoomsTable {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100px;
+    }
+    
+    .close {
+        position: relative;
+        top: 0;
+        left: 48%;
+        font-size: 42px;
+        transform: rotate(45deg);
+        cursor: pointer;
+        font-weight: bold;
         color: white;
     }
     
-    td:hover {
-        background-color: rgb(65, 65, 65);
+    #removeRoomDiv {
+        height: 650px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
     
-    th {
-        color: turquoise;
-        font-size: 17px;
-        background-color: #52595c;
+     ::-webkit-scrollbar {
+        width: 20px;
+    }
+    
+     ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+        background: #929292;
+    }
+    
+     ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background: rgb(0, 82, 82);
+    }
+    
+     ::-webkit-scrollbar-thumb:hover {
+        background: rgb(0, 42, 42);
     }

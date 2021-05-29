@@ -1,17 +1,16 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html5>
+<html lang="en">
 <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HTM: Control Panel</title>
 <link rel="stylesheet" href="css/ControlPanelStyle.css">
-<link rel="icon" href="../ico/logo.svg">
+<link rel="icon" href="ico/logo.svg">
 <header>
 
     <body>
         <div class="topnav">
-            <button class="topbtn" href="ControlPanel.html">Settings</button>
-            <button class="topbtn" href="sitemap.html">About</button>
+            <!-- <button class="topbtn" href="ControlPanel.html">Settings</button> -->
+            <button class="topbtn" onclick="window.location.href='http://localhost:5000/About'">About</button>
         </div>
     </body>
 </header>
@@ -20,44 +19,42 @@
 
 
     <div class="columnUnassignedDevices">
-        <h1>Unassigned Devices</h1>
-        <table class="table">
+        <h1 class="mainHeaders">Unassigned Devices</h1>
+        <table>
             <thead>
-                <th></th>
                 <th>Nickname</th>
                 <th>Serial Number</th>
                 <th>Device Type</th>
                 <th>Device Data</th>
             </thead>
-            <tbody id="UnassignedDevicesTable" class="devicesTable">
+            <tbody id="UnassignedDevicesTable" class="unassignedDevicesTable">
                 <!-- data -->
             </tbody>
         </table>
-        <button class="btn">Find devices</button>
+
     </div>
 
 
 
     <div class="columnRooms">
-        <h1>Rooms</h1>
-        <table class="table">
+        <h1 class="mainHeaders">Rooms</h1>
+        <table>
             <thead>
-                <th>Room</th>
-                <th>Information</th>
-                <th>Assigned Devices</th>
+                <th width="10%">Room</th>
+                <th width="15%">Information</th>
+                <th width="75%">Assigned Devices</th>
             </thead>
             <tbody id="roomsTable">
                 <!-- data -->
             </tbody>
         </table>
-        <button class="btn">Add</button>
-        <button class="btn">Preferences</button>
-        <button class="btn importantbtn" )>Remove</button>
+
+
     </div>
 
     <div class="columnOutside">
-        <h1>Outside</h1>
-        <table class="table">
+        <h1 class="mainHeaders">Outside</h1>
+        <table>
             <thead>
                 <th></th>
                 <th>Nickname</th>
@@ -65,12 +62,59 @@
                 <th>Sensor Type</th>
                 <th>Sensor Data</th>
             </thead>
-            <tbody id="OutsideDevicesTable" class="devicesTable"></tbody>
+            <tbody id="OutsideDevicesTable" class="outsideDevicesTable"></tbody>
         </table>
     </div>
 
+    <div class="bg-modal" id="addRoomForm">
+        <div class="modal-content">
+            <label for="closeForm" class="close" id='closeAddRoomForm'>+</label>
+            <label for="nickname" class='textFieldLabel'>Room name</label><br>
+            <input class='textField' id="nickname" type="text"> <br>
+            <label for="temperature" class='textFieldLabel'>Desired temperature</label><br>
+            <input class='textField' id="temperature" placeholder="min: 1, max: 50" type="number"> <br>
+            <label for="humidity" class='textFieldLabel'>Desired humidity</label><br>
+            <input class='textField' id="humidity" placeholder="min: 1 max: 99" type="number"> <br>
+            <label for="airQuality" class='textFieldLabel'>Desired air quality</label><br>
+            <input class='textField' id="airQuality" placeholder="Minimum 7 recomanded, min: 1 max: 10" type="number"> <br>
+            <label for="objectiveSpeed" class='textFieldLabel'>Economy factor </label><br>
+            <input class='textField' id="objectiveSpeed" placeholder="6 recomanded, min: 1 max: 10" type="number"> <br>
+
+            <button class="btn formBtn" onclick="addRoom()">Apply</button>
+        </div>
+    </div>
+
+    <div class="bg-modal" id="removeRoomForm">
+        <div class="modal-content remove-modal-content">
+            <label for="closeForm" class="close" id='closeRemoveRoomForm'>+</label>
+            <h1>Select a room for removal</h1>
+            <div id='removeRoomDiv'>
+                <table>
+                    <thead>
+                        <th>Room</th>
+                        <th>Information</th>
+                        <th>Assigned Devices</th>
+                    </thead>
+                    <tbody id="removeRoomsTable" class='removeDevicesTable'>
+                        <!-- data -->
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button class="btn formBtn importantbtn removebtn" onclick="removeRoom()">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <button class="btn">Find devices</button>
+        <button class="btn" onclick="addRoomForm()">Add room</button>
+        <button class="btn">Room preferences</button>
+        <button class="btn importantbtn" onclick="removeRoomForm()">Remove room</button>
+    </div>
 
 </body>
 <script src="js/FetchData.js"></script>
+<script src="js/AddRoomForm.js"></script>
 
 </html>

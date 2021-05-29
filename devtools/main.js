@@ -14,7 +14,7 @@ function B_POST() {
     var xhttp = new XMLHttpRequest();
     var input = document.getElementById("input").value;
 
-    xhttp.open("POST", "http://127.0.0.1:5000/" + input, false);
+    xhttp.open("POST", "localhost:5000/api/dbService?" + input, false);
     xhttp.send();
     console.log(input);
     document.getElementById('output').innerHTML = xhttp.responseText;

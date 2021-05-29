@@ -76,11 +76,13 @@ function get_room_devices(id, tbody_devices, array) {
     var serial_number = null;
     var nickname = "";
     var curentValue = null;
-
+    var description;
     for (var i = 0; i < array.length; i++) {
         if (array[i][0] == id) {
+            description = "Sensor";
             capability = JSON.parse(array[i][4])["measure"];
             if (capability == undefined) {
+                description = "Device";
                 capability = JSON.parse(array[i][4])["action"];
                 image = "svg/processor.svg";
             }
@@ -97,7 +99,7 @@ function get_room_devices(id, tbody_devices, array) {
             row.draggable = true;
 
             row.innerHTML = '\
-                <td><object data=\'' + image + '\' width=\'35\' height=\'35\'> </object></td > \
+                <td width=\'50px\'><object data=\'' + image + '\' width=\'35\' height=\'35\'>' + description + '</object></td > \
                 <td>' + nickname + '</td> \
                 <td>' + serial_number + '</td> \
                 <td>' + capability + '</td> \
@@ -117,10 +119,12 @@ async function getUnassignedDevices() {
     var curentValue = null;
     var capability = undefined;
     var row = null;
+    var description;
     await fetch('http://localhost:5000/api/dbService?function=get_unassigned_devices')
         .then(fetchedData => fetchedData.json())
         .then(data => {
             for (var i = 0; i < data['data'].length; i++) {
+                description = 'Sensor';
                 image = "svg/aerial-signal.svg";
                 serial_number = data['data'][i][1];
                 nickname = data['data'][i][2];
@@ -129,6 +133,7 @@ async function getUnassignedDevices() {
                 if (capability == undefined) {
                     capability = JSON.parse(data['data'][i][4])["action"];
                     image = "svg/processor.svg";
+                    description = 'Device'
                 }
                 if (nickname == "") {
                     nickname = "NONE";
@@ -139,16 +144,16 @@ async function getUnassignedDevices() {
                 row = result.insertRow();
                 row.draggable = true;
 
-                row.innerHTML = "<td><object data=\"" + image + "\" width='35' height='35'></object>\n" +
+                row.innerHTML = "<td width='50px'><object data=\"" + image + "\" width='35' height='35'>" + description + "</object>\n" +
                     "<td>" + nickname + "</td><td>" + serial_number + "</td><td>" + capability + "</td><td>" + curentValue + "</td>";
             }
-
         });
     return result;
 }
 
 async function getOutsideSensors() {
     var result = document.createElement('tbody');
+    result.className = "outsideDevicesTable";
     result.id = "OutsideDevicesTable";
     var serial_number;
     var nickname = "";
@@ -171,7 +176,7 @@ async function getOutsideSensors() {
                 row = result.insertRow();
                 row.draggable = true;
 
-                row.innerHTML = "<td><object data='svg/aerial-signal.svg' width='35' height='35'></object>\n" +
+                row.innerHTML = "<td width='50px'><object data='svg/aerial-signal.svg' width='35' height='35'>" + "Sensor" + "</object>\n" +
                     "<td>" + nickname + "</td><td>" + serial_number + "</td><td>" + capability + "</td><td>" + curentValue + "</td>";
             }
         });
@@ -186,7 +191,6 @@ async function get_rooms() {
     var nickname = "";
     var temperature = null;
     var humidity = null;
-    var lux = null;
     var airQuality = null;
     var row = null;
     var allDevices = null;
@@ -194,13 +198,12 @@ async function get_rooms() {
         .then(fetchedData => fetchedData.json())
         .then(data => {
             for (var i = 0; i < data['data'][0].length; i++) {
-                nickname = data['data'][0][i][1];
-                temperature = data['data'][0][i][7];
-                humidity = data['data'][0][i][8];
-                lux = data['data'][0][i][9];
-                airQuality = data['data'][0][i][10];
-                objectiveSpeed = data['data'][0][i][6];
                 id = data['data'][0][i][0];
+                nickname = data['data'][0][i][1];
+                objectiveSpeed = data['data'][0][i][5];
+                temperature = data['data'][0][i][6];
+                humidity = data['data'][0][i][7];
+                airQuality = data['data'][0][i][8];
                 allDevices = data['data'][1];
                 if (nickname == null) {
                     nickname = " ";
@@ -211,9 +214,6 @@ async function get_rooms() {
                 if (humidity == null) {
                     humidity = " ";
                 }
-                if (lux == null) {
-                    lux = " ";
-                }
                 if (airQuality == null) {
                     airQuality = " ";
                 }
@@ -221,20 +221,18 @@ async function get_rooms() {
                 var td_nickname = document.createElement('td');
                 td_nickname.innerHTML = nickname;
                 var td_information = document.createElement('td');
-                td_information.innerHTML = 'Temp: ' + temperature + '°C<br>Humidity: ' + humidity + '%<br>Air Quality: ' + airQuality + ' of 10<br>Lux: ' + lux + ' - lx';
+                td_information.innerHTML = 'Temp: ' + temperature + '°C<br>Humidity: ' + humidity + '%<br>Air Quality: ' + airQuality + ' of 10';
                 var td_assigned_devices = document.createElement('td');
+                td_nickname.className = "roomNicknameTd";
+                td_information.className = "roomInformationTd";
+                td_assigned_devices.className = "roomDevicesTd"
                 row.append(td_nickname);
                 row.append(td_information);
                 row.append(td_assigned_devices);
 
                 var table = document.createElement('table');
                 td_assigned_devices.append(table);
-
-                var tabele_head = document.createElement('thead');
-                tabele_head.className = "roomDevicesHeader";
-                tabele_head.innerHTML = "<th></th><th>Nickname </th> <th>Serial Number</th><th>Device Type</th> <th>Device Data</th>";
-                table.append(tabele_head);
-
+                td_assigned_devices.className = "roomDevicesTable";
                 var tbody = document.createElement('tbody');
                 tbody.id = id.toString();
                 tbody.className = "devicesTable";
@@ -257,26 +255,23 @@ function roomStillExists(oldTable, id) {
     return false;
 }
 
-function add_room(id, nickname, information) {
-    var result = document.getElementById('roomsTable');
+function add_room(id, nickname, information, tableName) {
+    var result = document.getElementById(tableName);
     row = result.insertRow();
     var td_nickname = document.createElement('td');
+    td_nickname.className = "roomNicknameTd";
     td_nickname.innerHTML = nickname;
     var td_information = document.createElement('td');
+    td_information.className = "roomInformationTd";
     td_information.innerHTML = information;
     var td_assigned_devices = document.createElement('td');
+    td_assigned_devices.className = "roomDevicesTable";
     row.append(td_nickname);
     row.append(td_information);
     row.append(td_assigned_devices);
 
     var table = document.createElement('table');
     td_assigned_devices.append(table);
-
-    var tabele_head = document.createElement('thead');
-    tabele_head.className = "roomDevicesHeader";
-    tabele_head.innerHTML = "<th></th><th>Nickname </th> <th>Serial Number</th><th>Device Type</th> <th>Device Data</th>";
-    table.append(tabele_head);
-
     var tbody = document.createElement('tbody');
     tbody.id = id.toString();
     tbody.className = "devicesTable";
@@ -287,7 +282,9 @@ function refreshRooms(tableName, newTable) {
     var oldTable = document.getElementById(tableName).children;
     var newTableArray = newTable.children;
     if (oldTable.length == 0) {
-        document.getElementById(tableName).innerHTML = newTable.innerHTML;
+        if (newTable.innerHTML != "") {
+            document.getElementById(tableName).innerHTML = newTable.innerHTML;
+        }
         return;
     }
 
@@ -306,7 +303,7 @@ function refreshRooms(tableName, newTable) {
             var tableData = newTableArray[i].children;
             var nickname = tableData[0].innerHTML;
             var information = tableData[1].innerHTML;
-            add_room(room_id, nickname, information);
+            add_room(room_id, nickname, information, tableName);
             refreshTable(room_id, houseDevices);
         }
     }
@@ -317,9 +314,10 @@ function refreshRooms(tableName, newTable) {
 async function updateFields() {
     refreshTable('UnassignedDevicesTable', await getUnassignedDevices());
     refreshTable('OutsideDevicesTable', await getOutsideSensors());
-    refreshRooms('roomsTable', await get_rooms());
+    var rooms = await get_rooms();
+    refreshRooms('roomsTable', rooms);
+    refreshRooms('removeRoomsTable', rooms);
     setTimeout(updateFields, 5000);
-
 }
 
 updateFields();
