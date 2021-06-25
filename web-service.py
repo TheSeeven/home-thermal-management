@@ -1,7 +1,8 @@
-import dbService.api, os
+import dbService.api, os, threading, json, socket, threading
 from flask import Flask, request, render_template, jsonify
 from flask.helpers import make_response, send_from_directory
 from flask_cors import CORS
+from devtools import *
 
 SERVER_NAME = 'HTM'
 
@@ -105,7 +106,40 @@ def api():
         return render_template("405NotAllowed.html")
 
 
+def handleMessage(message):
+    try:
+        jsonParsed = json.loads(message)
+        SN = jsonParsed['SN']
+        value = jsonParsed['value']
+        if dbService.api.device_exists(SN):
+            dbService.api.update_sensor_data(SN, value)
+        else:
+            deviceType = ""
+            try:
+                deviceType = jsonParsed['measure']
+                dbService.api.insert_new_sensor(SN, 'measure', deviceType,
+                                                value)
+            except:
+                deviceType = jsonParsed['action']
+                dbService.api.insert_new_sensor(SN, 'action', deviceType,
+                                                value)
+    except Exception as e:
+        log("Error updating sensor data: " + str(e))
+
+
+def listenToDevices():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    sock.bind(("0.0.0.0", 5005))
+    while True:
+        data, addr = sock.recvfrom(1024)
+        handler = threading.Thread(target=handleMessage, args=(data, ))
+        handler.start()
+
+
 if __name__ == "__main__":
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        devicesListenerThread = threading.Thread(target=listenToDevices)
+        devicesListenerThread.start()
         dbService.api.initialize_database()
     app.run(debug=True)

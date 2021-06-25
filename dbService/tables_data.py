@@ -57,10 +57,11 @@ DB_TABLES.append(
 
 DB_TABLES.append(
     Table("device", (
-        Column("id", "INTEGER"), Column("serialNumber",
-                                        "TEXT NOT NULL UNIQUE"),
-        Column("nickname", "TEXT DEFAULT ''"), Column(
-            "curentValue", "FLOAT"), Column("capabilities", "JSON NOT NULL"),
+        Column("id", "INTEGER"), Column(
+            "serialNumber",
+            "TEXT NOT NULL UNIQUE"), Column("nickname", "TEXT DEFAULT ''"),
+        Column("curentValue", "FLOAT"), Column(
+            "capabilities", "JSON NOT NULL"), Column("lastUpdate", "datetime"),
         Column(
             "",
             "FOREIGN KEY ('id') REFERENCES 'room' ('id') ON DELETE SET NULL ON UPDATE CASCADE"

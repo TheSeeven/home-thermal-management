@@ -338,12 +338,51 @@ def insert_past_sensor_data():
         log("Past sensor data insert failed: " + str(e))
 
 
-def update_sensor_data(sensorDataArray):
-    def update_sensor():
-        pass
+def update_sensor_data(SN, value):
+    try:
+        with sqlite3.connect(DATABASE_LINK) as DB:
+            enableForeignKey(DB)
+            DB.execute(
+                """UPDATE 'device' SET curentValue = {val}, lastUpdate = datetime() WHERE serialNumber='{serialNumber}';"""
+                .format(val=str(value), serialNumber=SN))
+            DB.commit()
+            log("Data updated succesfully")
+    except Exception as e:
+        log("Device data update failed: " + str(e))
 
-    # TODO : LONG IMPLEMENTATION
-    pass
+
+def insert_new_sensor(SN, deviceType, attribute, value):
+    try:
+        with sqlite3.connect(DATABASE_LINK) as DB:
+            enableForeignKey(DB)
+            z = "INSERT INTO 'device'('id','serialNumber','curentValue','capabilities','lastUpdate') VALUES (NULL,'{serialNumber}',{value},".format(
+                serialNumber=SN, value=str(
+                    value)) + "'{" + "\"{deviceType}\":\"{attribute}\"".format(
+                        deviceType=deviceType,
+                        attribute=attribute) + "}'" + ",datetime())"
+            DB.execute(z)
+            DB.commit()
+            log("Device inserted succesfully")
+    except Exception as e:
+        log("Device insert failed: " + str(e))
+
+
+def device_exists(SN):
+    try:
+        with sqlite3.connect(DATABASE_LINK) as DB:
+            enableForeignKey(DB)
+            cursor = DB.cursor()
+            cursor.execute(
+                """SELECT count() FROM device WHERE serialNumber='{serialNumber}'"""
+                .format(serialNumber=SN))
+            result = cursor.fetchall()
+            cursor.close()
+            log("Device found succesfully")
+            if result[0][0] == 1:
+                return True
+    except Exception as e:
+        log("Error finding device: " + str(e))
+    return False
 
 
 def get_past_sensor_data():
