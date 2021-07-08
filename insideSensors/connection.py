@@ -3,7 +3,7 @@ from time import sleep
 
 FAKE_SSID = "WirelessRouter"
 FAKE_PASSWORD = "Router123"
-FILENAME = "\insideSensors\insideCold.csv"
+FILENAME = "\\cold-normalHUM-normalAQ.csv"
 SOURCE_FILE = os.getcwd() + FILENAME
 
 SERIAL_NUMBER_SEED = string.ascii_letters + string.digits

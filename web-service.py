@@ -42,6 +42,13 @@ def about():
     return resp
 
 
+@app.route('/Help', methods=['GET', 'POST'])
+def help():
+    resp = make_response(render_template("HelpPage.html"))
+    resp.cache_control.max_age = 179
+    return resp
+
+
 def parseParameters(string):
     res = []
     tempString = ''
