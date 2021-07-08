@@ -20,7 +20,7 @@
     }
     
     td {
-        padding: 8px;
+        /* padding: 8px; */
         text-align: center;
         border: 1px solid grey;
         font-size: 15px;
@@ -108,9 +108,9 @@
         overflow-x: auto;
         padding: 8px;
         float: left;
-        width: 22%;
+        width: 25%;
         text-align: center;
-        height: 1000px
+        height: 1000px;
     }
     
     .columnRooms {
@@ -118,7 +118,7 @@
         overflow-x: auto;
         padding: 8px;
         float: left;
-        width: 49%;
+        width: 47%;
         text-align: center;
         height: 1000px
     }
@@ -128,21 +128,29 @@
         overflow-x: auto;
         padding: 8px;
         float: left;
-        width: 26%;
+        width: 25%;
         height: 1000px;
         text-align: center;
     }
     
+    #roomsTable {
+        display: block;
+        height: 800px;
+    }
+    
     .roomDevicesTable {
-        height: 108px;
+        height: 109px;
+        display: block;
     }
     
     .unassignedDevicesTable {
         height: 800px;
+        display: block;
     }
     
     .outsideDevicesTable {
         height: 800px;
+        display: block;
     }
     
     .roomNicknameTd {
@@ -188,7 +196,7 @@
         color: white;
         font-weight: bolder;
         margin-top: 10px;
-        width: 24.7%;
+        width: 33.2%;
     }
     
     @media screen and (max-width: 1650px) {
@@ -206,7 +214,7 @@
         }
         .btn {
             margin-left: 0.5%;
-            width: 24%;
+            width: 32%;
         }
         body {
             font-size: small;
@@ -292,7 +300,8 @@
         height: 850px;
     }
     
-    #removeRoomsTable {
+    #removeRoomsTable,
+    #preferencesRoomsTable {
         overflow-y: auto;
         overflow-x: hidden;
         height: 100px;
@@ -309,12 +318,36 @@
         color: white;
     }
     
-    #removeRoomDiv {
+    #removeRoomDiv,
+    #preferencesRoomDiv {
         height: 650px;
         width: 750px;
         overflow-y: auto;
         overflow-x: hidden;
         padding-left: 25px;
+    }
+    
+    .draggable {
+        cursor: move;
+    }
+    
+    .currentList {
+        background-color: rgb(20, 20, 20);
+    }
+    
+    .dragging {
+        opacity: 50%;
+    }
+    
+    .devicesTable {
+        display: block;
+        height: 110px;
+    }
+    
+    .roomDevicesParentTable {
+        border: none !important;
+        height: 110px;
+        width: 100%;
     }
     
      ::-webkit-scrollbar {
@@ -333,4 +366,10 @@
     
      ::-webkit-scrollbar-thumb:hover {
         background: rgb(0, 42, 42);
+    }
+    
+    table {
+        border-collapse: separate;
+        border: solid gray 3px;
+        border-radius: 10px;
     }

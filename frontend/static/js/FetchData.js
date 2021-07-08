@@ -1,3 +1,55 @@
+var dragging = false;
+var serialNumber;
+
+function addListener(obj) {
+    obj.addEventListener('dragstart', () => {
+        dragging = true;
+        obj.classList.add('dragging');
+    })
+    obj.addEventListener('dragend', () => {
+        dragging = false;
+        setTimeout(function() { obj.classList.remove('dragging') }, 500);
+    })
+}
+
+function addRoomsListenerDoubleClick(room) {
+    room.addEventListener('dblclick', () => {
+        fetch('http://localhost:5000/api/dbService?function=get_room_preferences&params=' + room.children[2].children[0].children[0].id, { method: 'GET', mode: "cors" }).then(
+                fetcheddata => fetcheddata.json())
+            .then(data => {
+                var temperature = data['data'][0];
+                var humidity = data['data'][1];
+                var airQuality = data['data'][2];
+                var economyFactor = data['data'][3];
+                alert("Temperature: " + temperature + "\nHumidity: " + humidity + "\nAir Quality: " + airQuality + "\nEconomy factor: " + economyFactor);
+            })
+    });
+
+}
+
+function addTableListener(obj) {
+    obj.addEventListener('dragover', () => {
+        const draggable = document.querySelector('.dragging');
+        serialNumber = draggable.getElementsByTagName('td')[2].innerHTML;
+        obj.appendChild(draggable);
+        outsideSensors.classList.add('currentList');
+    })
+
+    obj.addEventListener('dragleave', () => {
+        outsideSensors.classList.remove('currentList');
+    })
+
+    obj.addEventListener('dragend', () => {
+        console.log(obj.id);
+        console.log(serialNumber);
+        const f = fetch('http://localhost:5000/api/dbService?function=assign_sensor&params=' + obj.id + ',' + serialNumber + '', { method: 'POST', mode: "cors" }).then(
+                fetcheddata => fetcheddata.json())
+            .then(data => {
+                alert(data['data']);
+            })
+    })
+}
+
 function alreadyExists(item, table) {
     var serial_number = null;
     var serial_number_item = item.getElementsByTagName('td')[2].innerHTML;
@@ -37,7 +89,8 @@ function refresh(oldTableName, newTable) {
             var row = oldTableName.insertRow();
             row.draggable = true;
             row.innerHTML = newItem.innerHTML;
-
+            row.className = "draggable";
+            addListener(row);
         }
     }
     for (var i = 0; i < oldTable.length; i++) {
@@ -55,7 +108,10 @@ function refreshTable(tableName, tableData) {
     var newTable = tableData.getElementsByTagName('tr');
     if (oldTable.getElementsByTagName('tr').length == 0) {
         oldTable.innerHTML = tableData.innerHTML;
-
+        var rows = Array.prototype.slice.call(oldTable.getElementsByTagName('tr'));
+        rows.forEach(element => {
+            addListener(element);
+        });
     }
     if (newTable.length == 0) {
         oldTable.innerHTML = "";
@@ -97,7 +153,7 @@ function get_room_devices(id, tbody_devices, array) {
             serial_number = array[i][1];
             row = tbody_devices.insertRow()
             row.draggable = true;
-
+            row.classList.add("draggable");
             row.innerHTML = '\
                 <td width=\'50px\'><object data=\'' + image + '\' width=\'35\' height=\'35\'>' + description + '</object></td > \
                 <td>' + nickname + '</td> \
@@ -143,6 +199,7 @@ async function getUnassignedDevices() {
                 }
                 row = result.insertRow();
                 row.draggable = true;
+                row.className = "draggable";
 
                 row.innerHTML = "<td width='50px'><object data=\"" + image + "\" width='35' height='35'>" + description + "</object>\n" +
                     "<td>" + nickname + "</td><td>" + serial_number + "</td><td>" + capability + "</td><td>" + curentValue + "</td>";
@@ -175,8 +232,8 @@ async function getOutsideSensors() {
                 }
                 row = result.insertRow();
                 row.draggable = true;
-
-                row.innerHTML = "<td width='50px'><object data='svg/aerial-signal.svg' width='35' height='35'>" + "Sensor" + "</object>\n" +
+                row.classList.add("draggable");
+                row.innerHTML = "<td width='50px' class='draggable'><object data='svg/aerial-signal.svg' width='35' height='35'>" + "Sensor" + "</object>\n" +
                     "<td>" + nickname + "</td><td>" + serial_number + "</td><td>" + capability + "</td><td>" + curentValue + "</td>";
             }
         });
@@ -231,6 +288,7 @@ async function get_rooms() {
                 row.append(td_assigned_devices);
 
                 var table = document.createElement('table');
+                table.className = 'roomDevicesParentTable';
                 td_assigned_devices.append(table);
                 td_assigned_devices.className = "roomDevicesTable";
                 var tbody = document.createElement('tbody');
@@ -271,11 +329,14 @@ function add_room(id, nickname, information, tableName) {
     row.append(td_assigned_devices);
 
     var table = document.createElement('table');
+    table.className = 'roomDevicesParentTable';
     td_assigned_devices.append(table);
     var tbody = document.createElement('tbody');
     tbody.id = id.toString();
     tbody.className = "devicesTable";
+    addTableListener(tbody);
     table.append(tbody);
+    addRoomsListenerDoubleClick(row);
 }
 
 function refreshRooms(tableName, newTable) {
@@ -284,6 +345,17 @@ function refreshRooms(tableName, newTable) {
     if (oldTable.length == 0) {
         if (newTable.innerHTML != "") {
             document.getElementById(tableName).innerHTML = newTable.innerHTML;
+            var allTables = document.getElementsByClassName('devicesTable');
+            if (tableName == 'roomsTable') {
+                for (var i = 0; i < allTables.length; i++) {
+                    addTableListener(allTables[i]);
+                    addRoomsListenerDoubleClick(allTables[i].parentElement.parentElement.parentElement)
+                    var devices = allTables[i].getElementsByTagName('tr');
+                    for (var j = 0; j < devices.length; j++) {
+                        addListener(devices[j]);
+                    }
+                }
+            }
         }
         return;
     }
@@ -305,6 +377,7 @@ function refreshRooms(tableName, newTable) {
             var information = tableData[1].innerHTML;
             add_room(room_id, nickname, information, tableName);
             refreshTable(room_id, houseDevices);
+
         }
     }
 }
@@ -323,19 +396,44 @@ function selectDelete() {
     }
 }
 
+function selectPreferences() {
+
+    for (const i of this.parentElement.children) {
+        i.children[0].className = "roomNicknameTd";
+        i.children[1].className = "roomInformationTd";
+        i.children[2].className = "roomDevicesTd";
+    }
+    if (this.children[0].className == "roomNicknameTd") {
+        this.children[0].className = "roomNicknameTdSelected";
+        this.children[1].className = "roomInformationTdSelected";
+        this.children[2].className = "roomDevicesTdSelected";
+    } else {
+        this.children[0].className = "roomNicknameTd";
+        this.children[1].className = "roomInformationTd";
+        this.children[2].className = "roomDevicesTd";
+    }
+}
+
 async function updateFields() {
-    refreshTable('UnassignedDevicesTable', await getUnassignedDevices());
-    refreshTable('OutsideDevicesTable', await getOutsideSensors());
-    var rooms = await get_rooms();
-    refreshRooms('roomsTable', rooms);
-    refreshRooms('removeRoomsTable', rooms);
+    if (!dragging) {
+        refreshTable('UnassignedDevicesTable', await getUnassignedDevices());
+        refreshTable('OutsideDevicesTable', await getOutsideSensors());
+        var rooms = await get_rooms();
+        refreshRooms('roomsTable', rooms);
+        refreshRooms('removeRoomsTable', rooms);
+        refreshRooms('preferencesRoomsTable', rooms);
 
 
-    for (const i of document.getElementById('removeRoomsTable').children) {
-        i.onclick = selectDelete;
+        for (const i of document.getElementById('removeRoomsTable').children) {
+            i.onclick = selectDelete;
+        }
+        for (const i of document.getElementById('preferencesRoomsTable').children) {
+            i.onclick = selectPreferences;
+        }
     }
     setTimeout(updateFields, 5000);
-
 }
+
+
 
 updateFields();

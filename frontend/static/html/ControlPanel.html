@@ -9,7 +9,6 @@
 
     <body>
         <div class="topnav">
-            <!-- <button class="topbtn" href="ControlPanel.html">Settings</button> -->
             <div class="topnavLeftRight"></div>
             <div class="topnavMiddle"> <object class="topnavLogo" data="ico/logo.svg" width='50' height='50'></object></div>
             <div class="topnavLeftRight"> <button class="topbtn" onclick="window.location.href='http://localhost:5000/About'">About</button></div>
@@ -25,10 +24,11 @@
         <h1 class="mainHeaders">Unassigned Devices</h1>
         <table>
             <thead>
-                <th>Nickname</th>
-                <th>Serial Number</th>
-                <th>Device Type</th>
-                <th>Device Data</th>
+                <th width="50px"></th>
+                <th width="25%">Nickname</th>
+                <th width="25%">Serial Number</th>
+                <th width="25%">Device Type</th>
+                <th width="25%">Device Data</th>
             </thead>
             <tbody id="UnassignedDevicesTable" class="unassignedDevicesTable">
                 <!-- data -->
@@ -59,11 +59,11 @@
         <h1 class="mainHeaders">Outside</h1>
         <table>
             <thead>
-                <th></th>
-                <th>Nickname</th>
-                <th>Serial Number</th>
-                <th>Sensor Type</th>
-                <th>Sensor Data</th>
+                <th width="50px"></th>
+                <th width="25%">Nickname</th>
+                <th width="25%">Serial Number</th>
+                <th width="25%">Device Type</th>
+                <th width="25%">Device Data</th>
             </thead>
             <tbody id="OutsideDevicesTable" class="outsideDevicesTable"></tbody>
         </table>
@@ -94,11 +94,11 @@
             <div id='removeRoomDiv'>
                 <table>
                     <thead>
-                        <th>Room</th>
-                        <th>Information</th>
-                        <th>Assigned Devices</th>
+                        <th width="10%">Room</th>
+                        <th width="15%">Information</th>
+                        <th width="75%">Assigned Devices</th>
                     </thead>
-                    <tbody id="removeRoomsTable" class='removeDevicesTable'>
+                    <tbody id="removeRoomsTable">
                         <!-- data -->
                     </tbody>
                 </table>
@@ -108,17 +108,58 @@
             </div>
         </div>
     </div>
+    <!-- preferences room form -->
+    <div class="bg-modal" id="preferencesRoomForm">
+        <div class="modal-content remove-modal-content">
+            <label for="closeForm" class="close" id='closePreferencesRoomForm'>+</label>
+            <h1>Select a room for changing preferences</h1>
+            <div id='preferencesRoomDiv'>
+                <table>
+                    <thead>
+                        <th width="10%">Room</th>
+                        <th width="15%">Information</th>
+                        <th width="75%">Assigned Devices</th>
+                    </thead>
+                    <tbody id="preferencesRoomsTable">
+                        <!-- data -->
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <button class="btn formBtn preferencesbtn" onclick="changeRoomPreferences()">Change preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-modal" id="roomSettingsForm">
+        <div class="modal-content">
+            <label for="closeForm" class="close" id='closeSettingsRoomForm'>+</label>
+            <label for="nickname" class='textFieldLabel'>Room name</label><br>
+            <input class='textField' id="settingsNickname" type="text"> <br>
+            <label for="temperature" class='textFieldLabel'>Desired temperature</label><br>
+            <input class='textField' id="settingsTemperature" placeholder="min: 1, max: 50" type="number"> <br>
+            <label for="humidity" class='textFieldLabel'>Desired humidity</label><br>
+            <input class='textField' id="settingsHumidity" placeholder="min: 1 max: 99" type="number"> <br>
+            <label for="airQuality" class='textFieldLabel'>Desired air quality</label><br>
+            <input class='textField' id="settingsAirQuality" placeholder="Minimum 7 recomanded, min: 1 max: 10" type="number"> <br>
+            <label for="objectiveSpeed" class='textFieldLabel'>Economy factor </label><br>
+            <input class='textField' id="settingsObjectiveSpeed" placeholder="6 recomanded, min: 1 max: 10" type="number"> <br>
+
+            <button class="btn formBtn" onclick="commitChanges()">Apply</button>
+        </div>
+    </div>
 
     <div>
-        <button class="btn">Find devices</button>
         <button class="btn" onclick="addRoomForm()">Add room</button>
-        <button class="btn">Room preferences</button>
+        <button class="btn" onclick="preferencesRoomForm()">Room preferences</button>
         <button class="btn importantbtn" onclick="removeRoomForm()">Remove room</button>
     </div>
 
 </body>
 <script src="js/FetchData.js"></script>
 <script src="js/AddRoomForm.js"></script>
+<script src="js/ChangePreferencesForm.js"></script>
 <script src="js/RemoveRoomForm.js"></script>
+<script src="js/Dragging.js"></script>
 
 </html>

@@ -1,8 +1,11 @@
+from decisionArtificialIntelligence import AIDecider, processAllRooms
+from time import sleep
 import dbService.api, os, threading, json, socket, threading
 from flask import Flask, request, render_template, jsonify
 from flask.helpers import make_response, send_from_directory
 from flask_cors import CORS
 from devtools import *
+from classes import *
 
 SERVER_NAME = 'HTM'
 
@@ -111,6 +114,7 @@ def handleMessage(message):
         jsonParsed = json.loads(message)
         SN = jsonParsed['SN']
         value = jsonParsed['value']
+        nickname = jsonParsed['nickname']
         if dbService.api.device_exists(SN):
             dbService.api.update_sensor_data(SN, value)
         else:
@@ -118,11 +122,12 @@ def handleMessage(message):
             try:
                 deviceType = jsonParsed['measure']
                 dbService.api.insert_new_sensor(SN, 'measure', deviceType,
-                                                value)
+                                                value, nickname)
             except:
                 deviceType = jsonParsed['action']
-                dbService.api.insert_new_sensor(SN, 'action', deviceType,
-                                                value)
+                dbService.api.insert_new_device(SN, 'action', deviceType,
+                                                value, jsonParsed['power'],
+                                                nickname)
     except Exception as e:
         log("Error updating sensor data: " + str(e))
 
@@ -137,9 +142,35 @@ def listenToDevices():
         handler.start()
 
 
+def deleteInnactiveDevices():
+    while True:
+        try:
+            with dbService.api.sqlite3.connect(
+                    dbService.api.DATABASE_LINK) as DB:
+                querry = """delete from device where (strftime("%s",'now') - strftime("%s",device.lastUpdate) > 65)"""
+                dbService.api.enableForeignKey(DB)
+                try:
+                    DB.execute(querry)
+                    #log("Inactive sensors deleted")
+                except Exception as e:
+                    log("Error deleting inactive sensors with error: {err}".
+                        format(err=str(e)))
+        except Exception as e:
+            log("Error esablishing connection to database: " + str(e))
+        sleep(20)
+
+
 if __name__ == "__main__":
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        devicesListenerThread = threading.Thread(target=listenToDevices)
-        devicesListenerThread.start()
         dbService.api.initialize_database()
+        devicesListenerThread = threading.Thread(target=listenToDevices)
+        innactiveSensorsFinder = threading.Thread(
+            target=deleteInnactiveDevices)
+        setRoomSensorData = threading.Thread(
+            target=dbService.api.set_room_sensor_data)
+        ArtificialInteligence = threading.Thread(target=AIDecider)
+        devicesListenerThread.start()
+        innactiveSensorsFinder.start()
+        ArtificialInteligence.start()
+        setRoomSensorData.start()
     app.run(debug=True)

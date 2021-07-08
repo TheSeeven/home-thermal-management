@@ -17,7 +17,7 @@ async function addRoom() {
     let humidity = document.getElementById('humidity').value;
     let airQuality = document.getElementById('airQuality').value;
     let objectiveSpeed = document.getElementById('objectiveSpeed').value;
-    const f = fetch('http://localhost:5000/api/dbService?function=insert_room&params=' + nickname + ',' + temperature + ',' + humidity + ',' + airQuality + ',' + objectiveSpeed + '', { method: 'POST', mode: "cors" }).then(
+    fetch('http://localhost:5000/api/dbService?function=insert_room&params=' + nickname + ',' + temperature + ',' + humidity + ',' + airQuality + ',' + objectiveSpeed + '', { method: 'POST', mode: "cors" }).then(
             fetcheddata => fetcheddata.json())
         .then(data => {
             alert(data['data']);
@@ -35,26 +35,27 @@ async function addRoom() {
 
 
 temperature.oninput = function() {
-    if (parseInt(this.value) > 50 || parseInt(this.value) < 1) {
+    if (parseInt(this.value) > 50 || parseInt(this.value) < 1 || isNaN(parseInt(this.value))) {
         this.value = "";
         return;
     }
 }
 
+
 humidity.oninput = function() {
-    if (parseInt(this.value) > 99 || parseInt(this.value) < 1) {
+    if (parseInt(this.value) > 99 || parseInt(this.value) < 1 || isNaN(parseInt(this.value))) {
         this.value = "";
         return;
     }
 }
 airQuality.oninput = function() {
-    if (parseInt(this.value) > 10 || parseInt(this.value) < 1) {
+    if (parseInt(this.value) > 10 || parseInt(this.value) < 1 || isNaN(parseInt(this.value))) {
         this.value = "";
         return;
     }
 }
 objectiveSpeed.oninput = function() {
-    if (parseInt(this.value) > 10 || parseInt(this.value) < 1) {
+    if (parseInt(this.value) > 10 || parseInt(this.value) < 1 || isNaN(parseInt(this.value))) {
         this.value = "";
         return;
     }

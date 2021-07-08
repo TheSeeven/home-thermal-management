@@ -21,14 +21,15 @@
     <div class="FunctionsList">
         <header class="FunctionListTitle">Posibile function calls</header>
         <ul class="FunctionListText">
-            <label>'insert_room' inserts a room (6 parameters)</label><br>
-            <label>'insert_device' inserts a sensor into DB 
-                <br>[!this device is suposed to be paired first!] (1 parameter)</label><br>
-            <label>'update_room' updates room nickname (2 parameters)</label><br>
-            <label>'update_room_settings' updates room settings (6 parameters)</label><br>
-            <label>'delete_room' deletes a room <br> and the settings linked to the room (1 parameter)</label><br>
-            <label>'delete_device' removes a device from the paired devices <br> [!device is suposed to be unpaired!] (1 parameter)</label><br>
-            <label>'get_rooms' returns all the rooms with the settings (0 parameters)</label><br>
+            <label>'insert_room' inserts a room (5 parameters)</label><br><br>
+            <label>'update_room' updates room preferences <br> (6 parameters) 
+                <br>[! room is suposed to exist first !]</label><br><br>
+            <label>'delete_room' deletes a room and unpairs sensors paired to this room <br> (1 parameter)</label><br><br>
+            <label>'assign_sensor' assigns a sensor to a specific room <br> (2 parameters) <br> [-1 for outside 'NULL' for unassigned]</label><br><br>
+            <label>'get_room_preferences' return room preferences <br> (1 parameter)</label><br><br>
+            <label>'get_rooms' returns all the rooms with sensor data <br> (0 parameters)</label><br><br>
+            <label>'get_unassigned_devices' returns all devices that are unassigned <br> (0 parameters)</label><br><br>
+            <label>'get_outside_sensors' returns all sensors that are assigned to outside use <br> (0 parameters)</label><br><br>
         </ul>
     </div>
 </body>
